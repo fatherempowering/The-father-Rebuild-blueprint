@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Father Rebuild Blueprint – Father Empowering</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black:   #1A1A1A;
+    --orange:  #C85A00;
+    --white:   #FFFFFF;
+    --off:     #F2F0EB;
+    --ink:     #1A1A1A;
+    --ink2:    #484848;
+    --lit:     #DCDCDC;
+    --lit2:    #9A9A9A;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); font-family: 'Montserrat', sans-serif; font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  .page, .break-page { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+  .page.visible, .break-page.visible { opacity: 1; transform: none; }
+
+  /* ── DARK / LIGHT PAGE BASES ── */
+  .pg-dark {
+    background: var(--black); color: var(--white);
+    width: 100%; max-width: 800px; margin: 0 auto;
+    padding: 80px 60px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .pg-light {
+    background: var(--off); color: var(--ink);
+    width: 100%; max-width: 800px; margin: 0 auto;
+    padding: 80px 60px; border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+
+  /* ── SHARED ATOMS ── */
+  .section-label { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; display: block; margin-bottom: 12px; color: var(--orange); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 6vw, 52px); letter-spacing: 2px; line-height: 1; margin-bottom: 10px; }
+  .pg-dark  .section-title { color: var(--white); }
+  .pg-light .section-title { color: var(--ink); }
+  .divider { width: 40px; height: 2px; background: var(--orange); margin: 20px 0 32px; }
+  .body-text { font-size: 13.5px; max-width: 500px; line-height: 1.75; }
+  .pg-dark  .body-text { color: #EBEBEB; }
+  .pg-light .body-text { color: var(--ink2); }
+
+  /* ── COVER ── */
+  #cover {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
+    padding: 60px 60px 50px; background: var(--black);
+    border-bottom: 1px solid rgba(200,90,0,0.3); max-width: 800px; margin: 0 auto;
+  }
+  .cover-brand { font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 5px; color: var(--orange); }
+  .cover-center { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 60px 0 40px; }
+  .cover-doc { font-size: 10px; letter-spacing: 4px; color: var(--lit2); font-family: 'Bebas Neue', sans-serif; margin-bottom: 28px; }
+  .cover-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 9.5vw, 92px); line-height: .9; letter-spacing: 2px; color: var(--white); }
+  .cover-title span { color: var(--orange); }
+  .cover-rule { width: 56px; height: 3px; background: var(--orange); margin: 28px 0; }
+  .cover-sub { font-size: 16px; letter-spacing: 0.5px; text-transform: none; color: var(--white); font-weight: 600; max-width: 440px; line-height: 1.6; }
+  .cover-footer { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid rgba(255,255,255,0.07); padding-top: 24px; }
+  .cover-footer-label { font-size: 10px; letter-spacing: 3px; color: var(--lit2); text-transform: uppercase; }
+  .cover-handle { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 3px; color: var(--orange); }
+
+  /* ── STATEMENT ── */
+  #statement {
+    min-height: 65vh; display: flex; align-items: center; justify-content: center; text-align: center;
+    padding: 100px 60px; background: var(--black);
+    border-bottom: 1px solid rgba(255,255,255,0.05); max-width: 800px; margin: 0 auto;
+  }
+  .statement-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(30px, 6.5vw, 56px); line-height: 1.15; letter-spacing: 2px; color: var(--white); max-width: 600px; }
+  .statement-text em { color: var(--orange); font-style: normal; }
+
+  /* ── LETTER ── */
+  .letter-body p { margin-bottom: 18px; max-width: 560px; font-size: 14.5px; color: var(--ink2); }
+  .letter-pull { border-left: 3px solid var(--orange); padding: 16px 24px; margin: 32px 0; background: rgba(200,90,0,0.08); font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1.5px; color: var(--ink); }
+  .letter-sig { margin-top: 40px; }
+  .letter-sig .name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--orange); }
+  .letter-sig .role { font-size: 10px; letter-spacing: 2.5px; color: var(--ink2); text-transform: uppercase; margin-top: 4px; }
+
+  /* ── BREAK STATE ── */
+  .break-page {
+    min-height: 48vh; display: flex; align-items: center; justify-content: center; text-align: center;
+    background: var(--black); border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .break-inner { font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px, 5vw, 40px); letter-spacing: 3px; color: var(--white); max-width: 600px; padding: 60px; line-height: 1.2; }
+  .break-inner span { color: var(--orange); }
+
+  /* ── 2-COL GRID (problem page) ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 40px; }
+  .pg-dark  .grid-2 { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  .pg-light .grid-2 { background: rgba(0,0,0,0.08);       border: 1px solid rgba(0,0,0,0.08); }
+  .col-block { padding: 32px 28px; }
+  .pg-dark  .col-block { background: var(--black); }
+  .pg-light .col-block { background: var(--off); }
+  .col-block h3 { font-family: 'Bebas Neue', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; }
+  .pg-dark  .col-block.left  h3 { color: #AAAAAA; }
+  .pg-dark  .col-block.right h3 { color: #e84040; }
+  .pg-light .col-block.left  h3 { color: var(--ink2); }
+  .pg-light .col-block.right h3 { color: #b83030; }
+  .col-block ul { list-style: none; }
+  .col-block ul li { font-size: 13px; padding: 9px 0; display: flex; align-items: center; gap: 10px; }
+  .pg-dark  .col-block ul li  { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .pg-light .col-block ul li  { border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .pg-dark  .col-block.left  ul li { color: var(--lit); }
+  .pg-dark  .col-block.right ul li { color: #e84040; }
+  .pg-light .col-block.left  ul li { color: var(--ink2); }
+  .pg-light .col-block.right ul li { color: #b83030; }
+  .col-block ul li::before { content: '·'; font-size: 20px; line-height: 1; flex-shrink: 0; }
+  .pg-dark  .col-block.left  ul li::before { color: var(--orange); }
+  .pg-dark  .col-block.right ul li::before { color: #e84040; }
+  .pg-light .col-block.left  ul li::before { color: var(--orange); }
+  .pg-light .col-block.right ul li::before { color: #b83030; }
+
+  /* ── PRINCIPLES GRID ── */
+  .principle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 40px; }
+  .pg-light .principle-grid { background: rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.08); }
+  .pg-dark  .principle-grid { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  .p-box { padding: 34px 30px; transition: background .2s; }
+  .pg-light .p-box { background: var(--off); }
+  .pg-dark  .p-box { background: var(--black); }
+  .pg-light .p-box:hover { background: #ece9e2; }
+  .pg-dark  .p-box:hover { background: #212121; }
+  .p-num { font-family: 'Bebas Neue', sans-serif; font-size: 10px; letter-spacing: 5px; color: var(--orange); margin-bottom: 10px; }
+  .p-title { font-family: 'Bebas Neue', sans-serif; font-size: 21px; letter-spacing: 1.5px; line-height: 1.1; margin-bottom: 10px; }
+  .pg-light .p-title { color: var(--ink); }
+  .pg-dark  .p-title { color: var(--white); }
+  .p-body { font-size: 13px; line-height: 1.65; }
+  .pg-light .p-body { color: var(--ink2); }
+  .pg-dark  .p-body { color: var(--lit); }
+
+  /* ── NUTRIENT BLOCKS ── */
+  .nutrient-block { display: grid; grid-template-columns: 140px 1fr 1fr; overflow: hidden; margin-top: 32px; gap: 1px; }
+  .pg-dark  .nutrient-block { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.07); }
+  .pg-light .nutrient-block { background: rgba(0,0,0,0.08);       border: 1px solid rgba(0,0,0,0.08); }
+  .nb-label { background: var(--orange); padding: 28px 18px; display: flex; align-items: center; justify-content: center; }
+  .nb-label h3 { font-family: 'Bebas Neue', sans-serif; font-size: 19px; letter-spacing: 3px; color: #fff; writing-mode: vertical-rl; transform: rotate(180deg); }
+  .nb-col { padding: 26px 22px; }
+  .pg-dark  .nb-col { background: var(--black); }
+  .pg-light .nb-col { background: var(--off); }
+  .nb-col h4 { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+  .nb-col ul { list-style: none; }
+  .nb-col ul li { font-size: 13px; padding: 7px 0; }
+  .pg-dark  .nb-col ul li { border-bottom: 1px solid rgba(255,255,255,0.06); color: #EBEBEB; }
+  .pg-light .nb-col ul li { border-bottom: 1px solid rgba(0,0,0,0.06);       color: var(--ink2); }
+
+  .field-rule-box { margin-top: 28px; padding: 20px 24px; border-left: 3px solid var(--orange); }
+  .pg-dark  .field-rule-box { background: rgba(200,90,0,0.12); }
+  .pg-light .field-rule-box { background: rgba(200,90,0,0.08); }
+  .field-rule-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+  .field-rule-text { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1.5px; line-height: 1.2; }
+  .pg-dark  .field-rule-text { color: #FFFFFF; }
+  .pg-light .field-rule-text { color: var(--ink); }
+
+  /* ── 7PM RULE ── */
+  #seven-pm {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    padding: 80px 60px; background: var(--black); border-bottom: 1px solid rgba(255,255,255,0.05);
+    max-width: 800px; margin: 0 auto;
+  }
+  .seven-label { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--orange); margin-bottom: 32px; }
+  .seven-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 5.5vw, 46px); letter-spacing: 2px; line-height: 1.2; color: var(--white); max-width: 620px; }
+  .seven-sub { margin-top: 28px; font-size: 15px; color: #EBEBEB; max-width: 420px; line-height: 1.8; }
+
+  /* ── TIMELINE ── */
+  .timeline { display: flex; flex-direction: column; margin-top: 40px; max-width: 480px; }
+  .t-step { display: flex; align-items: flex-start; gap: 20px; padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,0.07); }
+  .t-marker { flex-shrink: 0; width: 38px; height: 38px; border: 1px solid var(--orange); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--orange); }
+  .t-content h4 { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 2px; color: var(--ink); margin-bottom: 4px; }
+  .t-content p  { font-size: 12.5px; color: var(--ink2); }
+  .t-arrow { margin-left: 18px; color: var(--orange); font-size: 18px; opacity: .5; padding: 3px 0; }
+
+  /* ── SUPPLEMENTS ── */
+  .supp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 36px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); }
+  .supp-col { background: var(--black); padding: 30px 28px; }
+  .supp-col h3 { font-family: 'Bebas Neue', sans-serif; font-size: 12px; letter-spacing: 4px; margin-bottom: 20px; }
+  .supp-col.works h3 { color: var(--orange); }
+  .supp-col.skip  h3 { color: #555; }
+  .supp-col ul { list-style: none; }
+  .supp-col ul li { font-size: 13px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
+  .supp-col.works ul li { color: var(--lit); }
+  .supp-col.works ul li::before { content: '✔'; color: var(--orange); }
+  .supp-col.skip  ul li { color: #555; text-decoration: line-through; text-decoration-color: #444; }
+  .supp-col.skip  ul li::before { content: '✘'; color: #555; }
+
+  /* ── CTA ── */
+  #cta { background: var(--black); max-width: 800px; margin: 0 auto; overflow: hidden; border-bottom: none; padding: 0; }
+
+  .cta-top { padding: 72px 60px 52px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .cta-eyebrow { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; display: block; }
+  .cta-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 9vw, 82px); letter-spacing: 2px; line-height: .93; color: var(--white); margin-bottom: 36px; }
+  .cta-headline em { color: var(--orange); font-style: normal; }
+  .cta-list { list-style: none; max-width: 460px; }
+  .cta-list li { font-size: 14px; color: #EBEBEB; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
+  .cta-list li::before { content: '·'; color: var(--orange); font-size: 20px; line-height: 1; flex-shrink: 0; }
+
+  /* THE ACTION BLOCK, FULL ORANGE, IMPOSSIBLE TO MISS */
+  .cta-action {
+    background: var(--orange);
+    padding: 56px 60px 52px;
+    display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 40px;
+  }
+  .cta-action-left {}
+  .cta-instruction { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 4px; }
+  .cta-keyword {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 14vw, 120px);
+    letter-spacing: 6px; line-height: 1;
+    color: var(--white);
+  }
+  .cta-note { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-top: 10px; }
+  .cta-action-right { text-align: right; }
+  .cta-brand-stack { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 4px; color: rgba(255,255,255,0.85); line-height: 1.9; }
+  .cta-handle-pill {
+    display: inline-block; margin-top: 14px;
+    background: rgba(0,0,0,0.18); padding: 8px 18px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 3px; color: #fff;
+  }
+
+  /* ── RESPONSIVE ── */
+
+  /* ── PAGE LOGO MARK ── */
+  .logo-mark {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+  }
+  .logo-mark-line {
+    width: 20px;
+    height: 1px;
+    background: rgba(200,90,0,0.4);
+  }
+  .logo-mark-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: rgba(200,90,0,0.35);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 640px) {
+    .pg-dark, .pg-light { padding: 56px 28px; }
+    #cover, #statement, #seven-pm { padding: 56px 28px; }
+    .cta-top { padding: 56px 28px 40px; }
+    .cta-action { padding: 44px 28px; flex-direction: column; align-items: flex-start; }
+    .cta-action-right { text-align: left; }
+    .grid-2, .principle-grid, .supp-grid { grid-template-columns: 1fr; }
+    .nutrient-block { grid-template-columns: 1fr; }
+    .nb-label { padding: 18px 22px; }
+    .nb-label h3 { writing-mode: unset; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 1. COVER, DARK -->
+<section id="cover" class="page">
+  <span class="cover-brand">Father Empowering</span>
+  <div class="cover-center">
+    <h1 class="cover-title">The Father<br><span>Rebuild</span><br>Blueprint</h1>
+    <div class="cover-rule"></div>
+    <p class="cover-sub">The nutrition system for fathers operating under real pressure.</p>
+  </div>
+  <div class="cover-footer">
+    <div class="cover-footer-label">100-Day Transformation Framework</div>
+    <div class="cover-handle">@fatherempowering</div>
+  </div>
+</section>
+
+<!-- 2. STATEMENT, DARK -->
+<section id="statement" class="page">
+  <p class="statement-text">
+    Most fathers don't collapse <em>suddenly.</em><br>
+    They surrender <em>slowly.</em>
+  </p>
+
+  <div class="logo-mark"><div class="logo-mark-line"></div><div class="logo-mark-text">Father Empowering</div><div class="logo-mark-line"></div></div></section>
+
+<!-- 3. LETTER, LIGHT -->
+<section class="page pg-light">
+  <span class="section-label">From The Founder</span>
+  <div class="letter-body">
+    <p>You didn't lose yourself all at once.</p>
+    <p>It happened over years of early mornings, long shifts, missed training, and telling yourself you'd get back to it soon.</p>
+    <p>Now you're looking at a version of yourself you don't fully recognise. Heavier. Slower. More tired than you should be. And somewhere inside, you know this isn't who you are.</p>
+    <div class="letter-pull">"Different game. Different rules."</div>
+    <p>You're not 22. Recovery works differently. Stress loads higher. Time is scarcer. The standard answer doesn't fit anymore.</p>
+    <p>This document was not built for beginners. It was built for men who know how to work, who just need the right structure applied to the right priorities.</p>
+    <p>What you're about to read isn't motivation. It's a field manual. Use it.</p>
+    <div class="letter-sig">
+      <div class="name">Maxime Bourdon</div>
+      <div class="role">Founder · Father Empowering</div>
+    </div>
+  </div>
+</section>
+
+<!-- BREAK -->
+<div class="break-page">
+  <div class="break-inner">
+    The strongest men in your children's lives<br>aren't the ones with the most talent.<br>
+    <span>They're the ones who refused to drift.</span>
+  </div>
+</div>
+
+<!-- 4. PROBLEM, DARK -->
+<section class="page pg-dark">
+  <span class="section-label">The Real Situation</span>
+  <h2 class="section-title">What's Actually<br>Happening to You</h2>
+  <div class="divider"></div>
+  <p class="body-text">This isn't about discipline. You have discipline. This is about what happens when the inputs are wrong and the system is broken.</p>
+  <div class="grid-2">
+    <div class="col-block left">
+      <h3>Daily Inputs</h3>
+      <ul>
+        <li>Inconsistent sleep</li>
+        <li>Skipped meals or reactive eating</li>
+        <li>Caffeine as primary fuel</li>
+        <li>High cognitive and physical stress</li>
+        <li>No structured recovery</li>
+        <li>Training inconsistency or none</li>
+      </ul>
+    </div>
+    <div class="col-block right">
+      <h3>What It Costs You</h3>
+      <ul>
+        <li>Progressive fat gain</li>
+        <li>Declining strength year over year</li>
+        <li>Low energy by midday</li>
+        <li>Poor sleep quality</li>
+        <li>Irritability and low patience</li>
+        <li>Identity erosion</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="logo-mark"><div class="logo-mark-line"></div><div class="logo-mark-text">Father Empowering</div><div class="logo-mark-line"></div></div></section>
+
+<!-- 5. PRINCIPLES, LIGHT -->
+<section class="page pg-light">
+  <span class="section-label">The Framework</span>
+  <h2 class="section-title">4 Rebuild<br>Principles</h2>
+  <div class="divider"></div>
+  <div class="principle-grid">
+    <div class="p-box">
+      <div class="p-num">01</div>
+      <div class="p-title">Protein Anchors Every Meal</div>
+      <p class="p-body">Not sometimes. Not when convenient. Every meal has a protein anchor. Without this, recovery fails, muscle breaks down, and hunger drives poor decisions.</p>
+    </div>
+    <div class="p-box">
+      <div class="p-num">02</div>
+      <div class="p-title">Eat for Recovery, Not Energy</div>
+      <p class="p-body">Fathers over 38 are in a constant recovery deficit. The goal is not to fuel workouts. The goal is to fuel function, work, training, family, and sleep.</p>
+    </div>
+    <div class="p-box">
+      <div class="p-num">03</div>
+      <div class="p-title">Reduce Decision Load at Night</div>
+      <p class="p-body">Your worst nutritional decisions happen after 7PM. Eliminate the decision. Structure your environment so the right choice requires no effort.</p>
+    </div>
+    <div class="p-box">
+      <div class="p-num">04</div>
+      <div class="p-title">Consistency Beats Precision</div>
+      <p class="p-body">An 80% plan followed every day destroys a perfect plan followed twice a week. Reduce friction, increase adherence. Build the habit first.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. PROTEIN, DARK -->
+<section class="page pg-dark">
+  <span class="section-label">Rebuild Standard · 01</span>
+  <h2 class="section-title">Protein</h2>
+  <div class="divider"></div>
+  <div class="nutrient-block">
+    <div class="nb-label"><h3>PROTEIN</h3></div>
+    <div class="nb-col">
+      <h4>Daily Target</h4>
+      <ul>
+        <li>0.8 – 1g per lb of bodyweight</li>
+        <li>Spread across 3–4 meals</li>
+        <li>Minimum 35–45g per meal</li>
+        <li>Non-negotiable on rest days</li>
+      </ul>
+    </div>
+    <div class="nb-col">
+      <h4>Best Sources</h4>
+      <ul>
+        <li>Chicken breast / thighs</li>
+        <li>Ground beef (85/15)</li>
+        <li>Eggs + egg whites</li>
+        <li>Greek yogurt</li>
+        <li>Cottage cheese</li>
+        <li>Whey protein (backup only)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="field-rule-box">
+    <div class="field-rule-label">Field Rule</div>
+    <div class="field-rule-text">Protein first. Every meal.<br>Non-negotiable.</div>
+  </div>
+
+  <div class="logo-mark"><div class="logo-mark-line"></div><div class="logo-mark-text">Father Empowering</div><div class="logo-mark-line"></div></div></section>
+
+<!-- BREAK -->
+<div class="break-page">
+  <div class="break-inner">
+    Your kids are not watching what you eat.<br>
+    <span>They're watching the man you're becoming.</span>
+  </div>
+</div>
+
+<!-- 7. CARBS, LIGHT -->
+<section class="page pg-light">
+  <span class="section-label">Rebuild Standard · 02</span>
+  <h2 class="section-title">Carbohydrates</h2>
+  <div class="divider"></div>
+  <div class="nutrient-block">
+    <div class="nb-label"><h3>CARBS</h3></div>
+    <div class="nb-col">
+      <h4>Timing Rules</h4>
+      <ul>
+        <li>Priority: pre/post training window</li>
+        <li>Reduce on rest days</li>
+        <li>Avoid high-carb meals late evening</li>
+        <li>Focus on whole food sources</li>
+      </ul>
+    </div>
+    <div class="nb-col">
+      <h4>Best Sources</h4>
+      <ul>
+        <li>White rice (easy to digest)</li>
+        <li>Oats (morning anchor)</li>
+        <li>Sweet potato</li>
+        <li>Fruit (post-training)</li>
+        <li>Sourdough / whole grain bread</li>
+      </ul>
+    </div>
+  </div>
+  <div class="field-rule-box">
+    <div class="field-rule-label">Field Rule</div>
+    <div class="field-rule-text">Earn your carbs with your training.<br>Time them around your effort.</div>
+  </div>
+</section>
+
+<!-- 8. FATS, DARK -->
+<section class="page pg-dark">
+  <span class="section-label">Rebuild Standard · 03</span>
+  <h2 class="section-title">Fats &amp; Recovery</h2>
+  <div class="divider"></div>
+  <div class="nutrient-block">
+    <div class="nb-label"><h3>FATS</h3></div>
+    <div class="nb-col">
+      <h4>Why It Matters</h4>
+      <ul>
+        <li>Supports testosterone production</li>
+        <li>Regulates inflammation</li>
+        <li>Improves sleep quality</li>
+        <li>Reduces cortisol response</li>
+      </ul>
+    </div>
+    <div class="nb-col">
+      <h4>Best Sources</h4>
+      <ul>
+        <li>Whole eggs</li>
+        <li>Olive oil</li>
+        <li>Avocado</li>
+        <li>Fatty fish (salmon, sardines)</li>
+        <li>Mixed nuts (controlled portions)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="field-rule-box">
+    <div class="field-rule-label">Field Rule</div>
+    <div class="field-rule-text">Don't fear fat. Fear processed food<br>disguised as healthy fuel.</div>
+  </div>
+
+  <div class="logo-mark"><div class="logo-mark-line"></div><div class="logo-mark-text">Father Empowering</div><div class="logo-mark-line"></div></div></section>
+
+<!-- 9. 7PM RULE, DARK -->
+<section id="seven-pm" class="page">
+  <div class="seven-label">The Critical Rule</div>
+  <h2 class="seven-text">"Never trust nutritional decisions made at 7PM by a tired father."</h2>
+  <p class="seven-sub">After a full day of work, pressure, and mental load, willpower is spent. The solution isn't more discipline at night. It's fewer decisions by design.</p>
+
+  <div class="logo-mark"><div class="logo-mark-line"></div><div class="logo-mark-text">Father Empowering</div><div class="logo-mark-line"></div></div></section>
+
+<!-- 10. NO-DECISION, LIGHT -->
+<section class="page pg-light">
+  <span class="section-label">The System</span>
+  <h2 class="section-title">No-Decision<br>Nutrition</h2>
+  <div class="divider"></div>
+  <p class="body-text">The goal is not more willpower. The goal is fewer moments where willpower is required.</p>
+  <div class="timeline">
+    <div class="t-step">
+      <div class="t-marker">SUN</div>
+      <div class="t-content">
+        <h4>Sunday Prep Block</h4>
+        <p>1 hour. Batch cook protein. Portion carbs. Stock the fridge.</p>
+      </div>
+    </div>
+    <div class="t-arrow">↓</div>
+    <div class="t-step">
+      <div class="t-marker">MON</div>
+      <div class="t-content">
+        <h4>Fridge Is Loaded</h4>
+        <p>Every meal decision this week is already made. No thinking required.</p>
+      </div>
+    </div>
+    <div class="t-arrow">↓</div>
+    <div class="t-step">
+      <div class="t-marker">ALL</div>
+      <div class="t-content">
+        <h4>Reduced Decision Points</h4>
+        <p>Tired fathers don't fail because they're weak. They fail because they had to decide when they had nothing left.</p>
+      </div>
+    </div>
+    <div class="t-arrow">↓</div>
+    <div class="t-step">
+      <div class="t-marker">WIN</div>
+      <div class="t-content">
+        <h4>Execution Becomes Default</h4>
+        <p>Consistency is not motivation. Consistency is infrastructure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BREAK -->
+<div class="break-page">
+  <div class="break-inner">
+    You don't need more motivation.<br>
+    <span>You need fewer decisions standing between you and the standard.</span>
+  </div>
+</div>
+
+<!-- 11. SUPPLEMENTS, DARK -->
+<section class="page pg-dark">
+  <span class="section-label">Supplement Stack</span>
+  <h2 class="section-title">What Works.<br>What Wastes.</h2>
+  <div class="divider"></div>
+  <p class="body-text">The supplement industry profits from confusion. This is what actually moves the needle for men over 38.</p>
+  <div class="supp-grid">
+    <div class="supp-col works">
+      <h3>Foundation Stack</h3>
+      <ul>
+        <li>Creatine Monohydrate (5g daily)</li>
+        <li>Vitamin D3 + K2</li>
+        <li>Magnesium Glycinate (before bed)</li>
+        <li>Omega-3 Fish Oil</li>
+        <li>Zinc (if diet is low)</li>
+      </ul>
+    </div>
+    <div class="supp-col skip">
+      <h3>Waste of Money</h3>
+      <ul>
+        <li>Fat burners</li>
+        <li>Detox teas</li>
+        <li>Testosterone boosters</li>
+        <li>Pre-workouts (dependency)</li>
+        <li>Mass gainers</li>
+      </ul>
+    </div>
+  </div>
+  <div class="field-rule-box" style="margin-top:24px;">
+    <div class="field-rule-label">Field Rule</div>
+    <div class="field-rule-text">Supplements support a good system.<br>They cannot replace one.</div>
+  </div>
+
+  <div class="logo-mark"><div class="logo-mark-line"></div><div class="logo-mark-text">Father Empowering</div><div class="logo-mark-line"></div></div></section>
+
+<!-- 12. CTA -->
+<section id="cta" class="page">
+  <!-- Copy section, dark bg -->
+  <div class="cta-top">
+    <span class="cta-eyebrow">The Next Step</span>
+    <h2 class="cta-headline">The <em>100-Day</em><br>Father<br>Rebuild</h2>
+    <ul class="cta-list">
+      <li>Full-time work and real pressure</li>
+      <li>Limited recovery and poor sleep</li>
+      <li>Fatigue that compounds over years</li>
+      <li>Kids who need a present, capable father</li>
+      <li>A standard they haven't held in too long</li>
+    </ul>
+  </div>
+
+  <!-- Action block, full orange, zero ambiguity -->
+  <div class="cta-action">
+    <div class="cta-action-left">
+      <div class="cta-instruction">DM on Instagram</div>
+      <div class="cta-keyword">LEGACY</div>
+      <div class="cta-note">Application only · Limited spots</div>
+    </div>
+    <div class="cta-action-right">
+      <div class="cta-brand-stack">FATHER EMPOWERING<br>THE LEGACY PROTOCOL<br>100 DAYS</div>
+      <div class="cta-handle-pill">@fatherempowering</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.page, .break-page').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
